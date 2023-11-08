@@ -1,31 +1,36 @@
 ---
-- name: Update all packages to their latest version
-  ansible.builtin.apt:
-    name: "*"
-    state: latest
+- name: Install and configure Grafana
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Update all packages to their latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
 
-- name: Add grafana gpg key
-  ansible.builtin.apt_key:
-    url: https://apt.grafana.com/gpg.key
-    state: present
+    - name: Add Grafana GPG key
+      ansible.builtin.apt_key:
+        url: https://apt.grafana.com/gpg.key
+        state: present
 
-- name: add grafana apt repo
-  ansible.builtin.apt_repository:
-    repo: "deb https://apt.grafana.com stable main"
-    state: present
+    - name: Add Grafana APT repository
+      ansible.builtin.apt_repository:
+        repo: "deb https://apt.grafana.com stable main"
+        state: present
 
-- name: install grafana
-  ansible.builtin.apt:
-    name: grafana
-    state: latest
-    update_cache: true
+    - name: Install Grafana
+      ansible.builtin.apt:
+        name: grafana
+        state: latest
+        update_cache: yes
 
-- name: copy grafana config file
-  ansible.builtin.copy:
-    src: files/grafana.ini
-    dest: /etc/grafana/grafana.ini
+    - name: Copy Grafana config file
+      ansible.builtin.copy:
+        src: /home/debian/grafana-mit-iac/ansible/playbooks/roles/grafana/files/grafana.ini
+        dest: /etc/grafana/grafana.ini
+        remote_src: yes
 
-- name: start grafana-server
-  ansible.builtin.systemd:
-    name: grafana-server
-    state: started
+    - name: Start Grafana-server
+      ansible.builtin.systemd:
+        name: grafana-server
+        state: started

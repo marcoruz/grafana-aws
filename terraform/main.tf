@@ -1,15 +1,13 @@
 terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.16"
-    }
-  }
-
-  required_version = ">= 1.2.0"
+required_version = ">= 1.0" # Wir wollen mindestens terraform version 1.0 verwenden
+required_providers {
+aws = { # Der AWS Provider ermöglicht es AWS Resourcen zu erstellen
+source = "hashicorp/aws"
+version = "~> 5.0"
 }
-
+}
+}
 provider "aws" {
-  region = "eu-central-1"
+region = var.region # Diese Terraform variable definieren wir im nächsten Schritt
+profile = "598990243446_Student" # BITTE DEIN AWS PROFILE EINTRAGEN
 }
-
