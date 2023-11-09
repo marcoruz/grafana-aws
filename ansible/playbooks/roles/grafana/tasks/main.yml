@@ -1,8 +1,5 @@
 ---
-- name: Install and configure Grafana
-  hosts: localhost
-  become: yes
-  tasks:
+
     - name: Update all packages to their latest version
       ansible.builtin.apt:
         name: "*"
@@ -26,9 +23,9 @@
 
     - name: Copy Grafana config file
       ansible.builtin.copy:
-        src: /home/debian/grafana-mit-iac/ansible/playbooks/roles/grafana/files/grafana.ini
+        src: /home/debian/grafana-aws/ansible/playbooks/roles/grafana/files/grafana.ini
         dest: /etc/grafana/grafana.ini
-        remote_src: yes
+        
 
     - name: Start Grafana-server
       ansible.builtin.systemd:
